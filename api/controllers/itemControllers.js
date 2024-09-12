@@ -38,4 +38,21 @@ function updateItem(req, res) {
   }
 }
 
-module.exports = { getAllItems, getSingeItem, addNewItem, updateItem };
+function deleteItem(req, res) {
+    const itemId = req.params.itemId;
+    
+    try {
+      const updatedItem = ItemModel.findByIdAndDelete(parseInt(itemId));
+      res.status(200).json(updatedItem);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+}
+
+module.exports = {
+  getAllItems,
+  getSingeItem,
+  addNewItem,
+  updateItem,
+  deleteItem,
+};

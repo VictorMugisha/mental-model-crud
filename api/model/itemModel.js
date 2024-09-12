@@ -31,7 +31,7 @@ exports.createItem = function (newItem) {
   }
 
   const storedItems = exports.find();
-  const newItemId = storedItems.length + 1;
+  const newItemId = storedItems[storedItems.length - 1].id + 1;
   const item = {
     id: newItemId,
     title: newItem.title,
@@ -72,7 +72,25 @@ exports.findByIdAnUpdate = function (id, data) {
   try {
     fs.writeFileSync(filePath, JSON.stringify(newData));
     return newItem;
-  } catch(error) {
-    throw new Error(error.message)
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+exports.findByIdAndDelete = function (itemId) {
+  const item = exports.findById(itemId);
+
+  if (!item) {
+    throw new Error("Invalid item id!");
+  }
+
+  const storedItems = exports.find();
+  const newData = storedItems.filter((item) => item.id !== itemId);
+
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(newData));
+    return item;
+  } catch (error) {
+    throw new Error(error.message);
   }
 };

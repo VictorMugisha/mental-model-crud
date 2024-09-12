@@ -6,6 +6,7 @@ const {
   getSingeItem,
   addNewItem,
   updateItem,
+  deleteItem,
 } = require("./controllers/itemControllers");
 const app = express();
 
@@ -25,6 +26,9 @@ app.post("/", addNewItem)
 
 // Update an item
 app.put("/:itemId", updateItem)
+
+// Delete an item
+app.delete("/:itemId", deleteItem)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
