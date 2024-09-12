@@ -1,4 +1,3 @@
-const fs = require("fs");
 const ItemModel = require("../model/itemModel");
 
 function getAllItems(req, res) {
@@ -27,4 +26,16 @@ function addNewItem(req, res) {
   }
 }
 
-module.exports = { getAllItems, getSingeItem, addNewItem };
+function updateItem(req, res) {
+  const itemId = req.params.itemId;
+  const data = req.body;
+
+  try {
+    const updatedItem = ItemModel.findByIdAnUpdate(parseInt(itemId), data);
+    res.status(200).json(updatedItem);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+module.exports = { getAllItems, getSingeItem, addNewItem, updateItem };

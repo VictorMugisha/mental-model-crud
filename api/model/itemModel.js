@@ -29,6 +29,7 @@ exports.createItem = function (newItem) {
   ) {
     throw new Error("Invalid Item!");
   }
+
   const storedItems = exports.find();
   const newItemId = storedItems.length + 1;
   const item = {
@@ -43,5 +44,35 @@ exports.createItem = function (newItem) {
     return item;
   } catch (error) {
     throw new Error(error);
+  }
+};
+
+exports.findByIdAnUpdate = function (id, data) {
+  const item = exports.findById(id);
+  if (!item) {
+    throw new Error("Invalid item id!");
+  }
+
+  if (
+    typeof data !== "object" ||
+    !data.hasOwnProperty("title") ||
+    Object.keys(data).length > 1
+  ) {
+    throw new Error("Invalid Item!");
+  }
+
+  const newItem = {
+    id,
+    title: data.title,
+  };
+
+  const storedItems = exports.find();
+  const newData = storedItems.map((item) => (item.id === id ? newItem : item));
+
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(newData));
+    return newItem;
+  } catch(error) {
+    throw new Error(error.message)
   }
 };
