@@ -17,4 +17,14 @@ function getSingeItem(req, res) {
   res.status(200).json(targetItem);
 }
 
-module.exports = { getAllItems, getSingeItem };
+function addNewItem(req, res) {
+  const data = req.body;
+  try {
+    const newItem = ItemModel.createItem(data);
+    res.status(201).json(newItem);
+  } catch (error) {
+    res.status(400).json({ error: "Could not add item" });
+  }
+}
+
+module.exports = { getAllItems, getSingeItem, addNewItem };
